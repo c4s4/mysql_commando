@@ -1,0 +1,22 @@
+# Build information
+- build:       mysql_null_driver
+  description: Build project mysql_null_driver
+  extends:     ':python:python.yml'
+
+# Build properties
+- properties:
+    name:       mysql_null_driver
+    zip:        "#{py_build_dir}/#{name}.zip"
+    py_chk_cfg: "pylint.cfg"
+
+# Build targets
+- target:      zip
+  description: Generate distribution archive
+  script:
+  - mkdir: :py_build_dir
+  - zip:
+      includes: "**/*"
+      excludes: ["#{py_build_dir}/**/*", "**/*.pyc"]
+      dest:     :zip
+      prefix:   :name
+
