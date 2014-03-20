@@ -9,9 +9,10 @@ To use this library, drop its module (that is the file _mysql_null_driver.py_)
 in your source directory and use it like this:
 
 ```python
-import mysql_null_driver
+from mysql_null_driver import MysqlNullDriver
 
-mysql = mysql_null_driver.MysqlNullDriver()
+mysql = MysqlNullDriver(hostname='localhost', database='test',
+                        username='test', password='test')     
 result = mysql.run_query("SHOW DATABASES")
 print result
 ```
