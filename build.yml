@@ -2,12 +2,13 @@
 - build:       mysql_null_driver
   description: Build project mysql_null_driver
   extends:     ':python:python.yml'
+  default:     [clean, test, zip]
 
 # Build properties
 - properties:
     name:       mysql_null_driver
-    zip:        "#{py_build_dir}/#{name}.zip"
     py_chk_cfg: "pylint.cfg"
+    zip:        "#{py_build_dir}/#{name}.zip"
 
 # Build targets
 - target:      zip
