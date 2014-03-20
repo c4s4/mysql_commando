@@ -11,28 +11,30 @@ class MysqlNullDriver(object):
 
     ISO_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def __init__(self, hostname=None, database=None,
+    def __init__(self, configuration=None,
+                 hostname=None, database=None,
                  username=None, password=None,
-                 charset=None,
-                 configuration=None):
+                 charset=None):
         if hostname and database and username and password:
             self.hostname = hostname
             self.database = database
             self.username = username
             self.password = password
+            if charset:
+                self.charset = charset
+            else:
+                self.charset = None
         elif configuration:
             self.hostname = configuration['hostname']
             self.database = configuration['database']
             self.username = configuration['username']
             self.password = configuration['password']
+            if 'charset' in configuration:
+                self.charset = configuration['charset']
+            else:
+                self.charset = None
         else:
             raise Exception('Missing database configuration')
-        if charset:
-            self.charset = charset
-        elif 'charset' in configuration:
-            self.charset = configuration['charset']
-        else:
-            self.charset = None
 
     def run_query(self, query, parameters=None):
         query = self.process_parameters(query, parameters)
