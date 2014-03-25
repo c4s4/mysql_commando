@@ -28,6 +28,7 @@
     - "**/*.pyc"
     - "**/*.pyo"
     - "setup.py"
+    - "MANIFEST"
 
 # Build targets
 - target:      setup                                                                                                                                                 
@@ -57,3 +58,4 @@
   description: Tag the release
   script:
   - "git tag -a 'RELEASE-#{version}' -m 'Release #{version}'"
+
