@@ -2,22 +2,54 @@
 - build:       mysql_null_driver
   description: Build project mysql_null_driver
   extends:     ':python:python.yml'
-  default:     [clean, test, zip]
+  default:     [clean, test]
+  alias:
+    release:
+    - clean
+    - test
+    - dist
+    - upload
+    - tag
 
 # Build properties
 - properties:
-    name:       mysql_null_driver
-    py_chk_cfg: "pylint.cfg"
-    zip:        "#{py_build_dir}/#{name}.zip"
+    name:        mysql_null_driver
+    package:     :name
+    version:     "1.0.0"
+    author:      "Michel Casabianca"
+    email:       "casa@sweetohm.net"
+    license:     "Apache Software License"
+    description: "Mysql_null_driver is a lightweight MySQL driver"
+    py_src_dir:  :name
+    py_chk_src:  :name
+    py_chk_cfg:  "pylint.cfg"
+    py_test_dir: "#{name}/test"
 
 # Build targets
-- target:      zip
+- target:      setup                                                                                                                                                 
+  description: Generate setup file
+  script:
+  - erb:
+      src:  "setup.py.erb"
+      dest: "setup.py"
+
+- target:      dist
+  depends:     setup
   description: Generate distribution archive
   script:
   - mkdir: :py_build_dir
-  - zip:
-      includes: "**/*"
-      excludes: ["#{py_build_dir}/**/*", "**/*.pyc"]
-      dest:     :zip
-      prefix:   :name
+  - "python setup.py sdist -d #{py_build_dir}"
+  - rm: MANIFEST
 
+- target:      upload
+  depends:     setup
+  description: Upload the distribution
+  script:
+  - mkdir: :py_build_dir
+  - "python setup.py sdist -d #{py_build_dir} register upload"
+  - rm: MANIFEST
+
+- target:      tag
+  description: Tag the release
+  script:
+  - "git tag -a 'RELEASE-#{version}' -m 'Release #{version}'"
