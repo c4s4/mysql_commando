@@ -9,7 +9,7 @@
     - py_test
     - dist
     - upload
-    #- tag
+    - tag
 
 # Build properties
 - properties:
