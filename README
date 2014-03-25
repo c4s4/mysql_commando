@@ -25,5 +25,10 @@ a tuple of dictionaries. For instance, previous sample code would print:
 This module is not intended to replace MySQLdb that you SHOULD use if you can
 install it on the target machine.
 
+Releases
+========
+
+- 0.1.0 (2014-03-25): First public release.
+
 Enjoy!
 
