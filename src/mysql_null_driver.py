@@ -37,7 +37,7 @@ class MysqlNullDriver(object):
             raise Exception('Missing database configuration')
 
     def run_query(self, query, parameters=None):
-        query = self.process_parameters(query, parameters)
+        query = self._process_parameters(query, parameters)
         if self.charset:
             command = ['mysql',
                        '-u%s' % self.username,
@@ -98,31 +98,30 @@ class MysqlNullDriver(object):
         return output
 
     @staticmethod
-    def process_parameters(query, parameters):
+    def _process_parameters(query, parameters):
         if not parameters:
             return query
         if isinstance(parameters, (list, tuple)):
-            parameters = tuple(MysqlNullDriver.format_parameters(parameters))
+            parameters = tuple(MysqlNullDriver._format_parameters(parameters))
         elif isinstance(parameters, dict):
-            parameters = dict(zip(parameters.keys(), MysqlNullDriver.format_parameters(parameters.values())))
+            parameters = dict(zip(parameters.keys(), MysqlNullDriver._format_parameters(parameters.values())))
         return query % parameters
 
     @staticmethod
-    def format_parameters(parameters):
-        return [MysqlNullDriver.format_parameter(param) for param in parameters]
+    def _format_parameters(parameters):
+        return [MysqlNullDriver._format_parameter(param) for param in parameters]
 
     @staticmethod
-    def format_parameter(parameter):
+    def _format_parameter(parameter):
         if isinstance(parameter, (int, long, float)):
             return str(parameter)
         elif isinstance(parameter, (str, unicode)):
-            return "'%s'" % MysqlNullDriver.escape_string(parameter)
+            return "'%s'" % MysqlNullDriver._escape_string(parameter)
         elif isinstance(parameter, datetime.datetime):
             return "'%s'" % parameter.strftime(MysqlNullDriver.ISO_FORMAT)
         else:
             raise Exception("Type '%s' is not managed as a query parameter" % parameter.__class__.__name__)
 
     @staticmethod
-    def escape_string(string):
+    def _escape_string(string):
         return string.replace("'", "''")
-
