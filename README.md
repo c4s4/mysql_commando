@@ -17,4 +17,15 @@ result = mysql.run_query("SHOW DATABASES")
 print result
 ```
 
+When query returns nothing (after an _INSERT_ for instance), method
+_run_query()_ will return _None_. If query returns a result set, this will be
+a tuple of dictionaries. For instance, previous sample code would print:
 
+```python
+({'Database': 'information_schema'}, {'Database': 'mysql'}, {'Database': 'test'})
+```
+
+This module is not intended to replace MySQLdb that you SHOULD use if you can
+install it on the target machine.
+
+Enjoy!
