@@ -5,8 +5,8 @@
   default:     [clean, test]
   alias:
     release:
-    - clean
-    - test
+    - py_clean
+    - py_test
     - dist
     - upload
     - tag
