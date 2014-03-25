@@ -18,7 +18,7 @@ in your source directory and use it like this::
 
 When query returns nothing (after an INSERT for instance), method
 run_query() will return None. If query returns a result set, this will be
-a tuple of dictionaries. For instance, previous sample code would print:
+a tuple of dictionaries. For instance, previous sample code would print::
 
     ({'Database': 'information_schema'}, {'Database': 'mysql'}, {'Database': 'test'})
 
