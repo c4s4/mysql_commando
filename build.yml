@@ -9,7 +9,7 @@
     - py_test
     - dist
     - upload
-    - tag
+    #- tag
 
 # Build properties
 - properties:
@@ -44,6 +44,7 @@
   script:
   - mkdir: :py_build_dir
   - "python setup.py sdist -d #{py_build_dir}"
+  - rm: "MANIFEST"
 
 - target:      upload
   depends:     setup
@@ -51,6 +52,7 @@
   script:
   - mkdir: :py_build_dir
   - "python setup.py sdist -d #{py_build_dir} register upload"
+  - rm: "MANIFEST"
 
 - target:      tag
   description: Tag the release
