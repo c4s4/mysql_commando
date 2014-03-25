@@ -24,6 +24,10 @@
     py_chk_src:  :name
     py_chk_cfg:  "pylint.cfg"
     py_test_dir: "#{name}/test"
+    py_clean_files:
+    - "**/*.pyc"
+    - "**/*.pyo"
+    - "setup.py"
 
 # Build targets
 - target:      setup                                                                                                                                                 
