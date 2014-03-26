@@ -6,8 +6,19 @@ MySQL driver that calls database on command line so that you don't have to
 install any library to run you favorite Python script on this old server where
 you can't install anything.
 
-To use this library, drop its module (that is the file mysql_null_driver.py)
-in your source directory and use it like this::
+Installation
+============
+
+You may install this module using PIP but you may also (to avoid installing
+anything) just drop the mysql_null_driver.py module into your source directory.
+If you want to provide a self contained script, you may also simply copy the
+code of the MysqlNullDriver (in the mysql_null_driver.py module) class in your
+source file.
+
+Usage
+=====
+
+You can use this driver in your code just like so::
 
     from mysql_null_driver import MysqlNullDriver
     
@@ -22,6 +33,44 @@ a tuple of dictionaries. For instance, previous sample code would print::
 
     ({'Database': 'information_schema'}, {'Database': 'mysql'}, {'Database': 'test'})
 
+
+Note that values in the result set are not typed and will always be strings.
+Thus if the result of your query is a single integer id, you may have the
+following result set::
+
+    ({'id': '42'},)
+
+Parameters
+==========
+
+You can have values such as %(foo)s in you query that will be replaced with
+corresponding value of the parameters dictionary. For instance ::
+
+    from mysql_null_driver import MysqlNullDriver
+
+    mysql = MysqlNullDriver(hostname='localhost', database='test',
+                            username='test', password='test')
+    parameters = {'name': 'reglisse'}
+    result = mysql.run_query(query="SELECT * FROM animals WHERE name=%(name)s",
+                             parameters=parameters)
+    print result
+
+Last inserted ID
+================
+
+If you need to get ID of the last INSERT, just add a call to MySQL function
+last_insert_id() as so::
+
+    INSERT INTO animals (name, age) VALUES ('Reglisse', 14);
+    SELECT last_insert_id() AS id;
+
+While you run this query, this will return the ID of your last INSERT::
+
+    ({'id': 42},)
+
+Note
+====
+
 This module is not intended to replace MySQLdb that you SHOULD use if you can
 install it on the target machine.
 
@@ -29,6 +78,7 @@ Releases
 ========
 
 - 0.1.0 (2014-03-25): First public release.
+- 0.2.0 (2014-03-26): Improved documentation and module refactoring (to move
+  code outside __init__.py module).
 
 Enjoy!
-
