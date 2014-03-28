@@ -78,14 +78,18 @@ class MysqlNullDriver(object):
         with open(script) as stdin:
             output = self._execute_with_output(command, stdin=stdin)
         if output:
-            result = []
-            lines = output.strip().split('\n')
-            fields = lines[0].split('\t')
-            for line in lines[1:]:
-                values = line.split('\t')
-                result.append(dict(zip(fields, values)))
-            return tuple(result)
-
+            return self._output_to_result(output)
+    
+    @staticmethod
+    def _output_to_result(output):
+        result = []
+        lines = output.strip().split('\n')
+        fields = lines[0].split('\t')
+        for line in lines[1:]:
+            values = line.split('\t')
+            result.append(dict(zip(fields, values)))
+        return tuple(result)
+    
     @staticmethod
     def _execute_with_output(command, stdin=None):
         if stdin:
