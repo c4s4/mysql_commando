@@ -13,7 +13,7 @@ class MysqlNullDriver(object):
     ISO_FORMAT = '%Y-%m-%d %H:%M:%S'
     CASTS = {
         r'-?\d+': int,
-        r'-?\d*\.?\d*(E-?\d+)?': float,
+        r'-?\d*\.?\d*([Ee]-?\d+)?': float,
         r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lambda d: datetime.datetime.strptime(d, MysqlNullDriver.ISO_FORMAT),
     }
 

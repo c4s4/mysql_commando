@@ -70,6 +70,9 @@ class TestMysqlNullDriver(unittest.TestCase):
         expected = 1.23
         actual = MysqlNullDriver._cast("1.23")
         self.assertEqual(expected, actual)
+        expected = 1.23e-45
+        actual = MysqlNullDriver._cast("1.23e-45")
+        self.assertEqual(expected, actual)
         expected = datetime.datetime(2014, 3, 29, 11, 18, 0)
         actual = MysqlNullDriver._cast('2014-03-29 11:18:00')
         self.assertEqual(expected, actual)
