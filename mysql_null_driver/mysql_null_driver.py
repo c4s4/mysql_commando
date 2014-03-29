@@ -82,7 +82,10 @@ class MysqlNullDriver(object):
             return self._output_to_result(output)
     
     def _output_to_result(self, output):
-        output = unicode(output, encoding=self.encoding, errors='replace')
+        if self.encoding:
+            output = unicode(output, encoding=self.encoding, errors='replace')
+        else:
+            output = unicode(output, errors='replace')
         result = []
         lines = output.strip().split('\n')
         fields = lines[0].split('\t')
