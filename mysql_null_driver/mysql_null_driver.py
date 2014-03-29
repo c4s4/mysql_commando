@@ -20,37 +20,37 @@ class MysqlNullDriver(object):
     def __init__(self, configuration=None,
                  hostname=None, database=None,
                  username=None, password=None,
-                 charset=None, cast=False):
+                 encoding=None, cast=False):
         if hostname and database and username and password:
             self.hostname = hostname
             self.database = database
             self.username = username
             self.password = password
-            if charset:
-                self.charset = charset
+            if encoding:
+                self.encoding = encoding
             else:
-                self.charset = None
+                self.encoding = None
         elif configuration:
             self.hostname = configuration['hostname']
             self.database = configuration['database']
             self.username = configuration['username']
             self.password = configuration['password']
-            if 'charset' in configuration:
-                self.charset = configuration['charset']
+            if 'encoding' in configuration:
+                self.encoding = configuration['encoding']
             else:
-                self.charset = None
+                self.encoding = None
         else:
             raise Exception('Missing database configuration')
         self.cast = cast
 
     def run_query(self, query, parameters=None):
         query = self._process_parameters(query, parameters)
-        if self.charset:
+        if self.encoding:
             command = ['mysql',
                        '-u%s' % self.username,
                        '-p%s' % self.password,
                        '-h%s' % self.hostname,
-                       '--default-character-set', self.charset,
+                       '--default-character-set', self.encoding,
                        '-B', '-e', query, self.database]
         else:
             command = ['mysql',
@@ -63,12 +63,12 @@ class MysqlNullDriver(object):
             return self._output_to_result(output)
 
     def run_script(self, script):
-        if self.charset:
+        if self.encoding:
             command = ['mysql',
                        '-u%s' % self.username,
                        '-p%s' % self.password,
                        '-h%s' % self.hostname,
-                       '--default-character-set', self.charset,
+                       '--default-character-set', self.encoding,
                        '-B', self.database]
         else:
             command = ['mysql',
@@ -82,6 +82,7 @@ class MysqlNullDriver(object):
             return self._output_to_result(output)
     
     def _output_to_result(self, output):
+        output = unicode(output, encoding=self.encoding, errors='replace')
         result = []
         lines = output.strip().split('\n')
         fields = lines[0].split('\t')
