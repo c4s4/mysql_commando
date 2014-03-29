@@ -9,7 +9,7 @@ import datetime
 from mysql_null_driver import MysqlNullDriver
 
 
-#pylint: dusable=W0212
+#pylint: disable=W0212
 class TestMysqlNullDriver(unittest.TestCase):
 
     CONFIG = {

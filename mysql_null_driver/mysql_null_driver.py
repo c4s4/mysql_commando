@@ -13,7 +13,7 @@ class MysqlNullDriver(object):
     CASTS = {
         r'-?\d+': int,
         r'-?\d*\.?\d*(E-?\d+)?': float,
-        r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lambda d: datetime.strptime(ISO_FORMAT, d),
+        r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lambda d: datetime.strptime(MysqlNullDriver.ISO_FORMAT, d),
     }
 
     def __init__(self, configuration=None,
@@ -88,13 +88,13 @@ class MysqlNullDriver(object):
         for line in lines[1:]:
             values = line.split('\t')
             if self.cast:
-                values = self._cast_list(values)
+                values = MysqlNullDriver._cast_list(values)
             result.append(dict(zip(fields, values)))
         return tuple(result)
     
     @staticmethod
     def _cast_list(values):
-        return [self._cast(value) for value in values]
+        return [MysqlNullDriver._cast(value) for value in values]
     
     @staticmethod
     def _cast(value):
