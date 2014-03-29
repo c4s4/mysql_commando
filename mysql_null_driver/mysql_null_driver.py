@@ -2,6 +2,7 @@
 # encoding: UTF-8
 
 from __future__ import with_statement
+import re
 import datetime
 import subprocess
 
@@ -80,8 +81,7 @@ class MysqlNullDriver(object):
         if output:
             return self._output_to_result(output)
     
-    @staticmethod
-    def _output_to_result(output):
+    def _output_to_result(self, output):
         result = []
         lines = output.strip().split('\n')
         fields = lines[0].split('\t')
