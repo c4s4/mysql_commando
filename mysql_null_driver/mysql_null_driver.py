@@ -14,7 +14,7 @@ class MysqlNullDriver(object):
     CASTS = {
         r'-?\d+': int,
         r'-?\d*\.?\d*(E-?\d+)?': float,
-        r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lambda d: datetime.datetime.strptime(MysqlNullDriver.ISO_FORMAT, d),
+        r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lambda d: datetime.datetime.strptime(d, MysqlNullDriver.ISO_FORMAT),
     }
 
     def __init__(self, configuration=None,
