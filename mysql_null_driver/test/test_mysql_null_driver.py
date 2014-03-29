@@ -6,9 +6,10 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 import unittest
 import datetime
-import mysql_null_driver
+from mysql_null_driver import MysqlNullDriver
 
 
+#pylint: dusable=W0212
 class TestMysqlNullDriver(unittest.TestCase):
 
     CONFIG = {
@@ -20,12 +21,12 @@ class TestMysqlNullDriver(unittest.TestCase):
     SCRIPT_DIR = os.path.dirname(__file__)
 
     def test_run_query_nominal(self):
-        mysql = mysql_null_driver.MysqlNullDriver(configuration=self.CONFIG)
+        mysql = MysqlNullDriver(configuration=self.CONFIG)
         result = mysql.run_query("SHOW DATABASES;")
         self.assertTrue('information_schema' in [entry['Database'] for entry in result])
 
     def test_run_query_error(self):
-        mysql = mysql_null_driver.MysqlNullDriver(configuration=self.CONFIG)
+        mysql = MysqlNullDriver(configuration=self.CONFIG)
         try:
             mysql.run_query("BAD SQL QUERY;")
             self.fail('Should have failed')
@@ -34,12 +35,12 @@ class TestMysqlNullDriver(unittest.TestCase):
 
     def test_run_script_nominal(self):
         script = os.path.join(self.SCRIPT_DIR, 'test_mysql_null_driver.sql')
-        mysql = mysql_null_driver.MysqlNullDriver(configuration=self.CONFIG)
+        mysql = MysqlNullDriver(configuration=self.CONFIG)
         result = mysql.run_script(script)
         self.assertTrue('information_schema' in [entry['Database'] for entry in result])
 
     def test_run_script_error(self):
-        mysql = mysql_null_driver.MysqlNullDriver(configuration=self.CONFIG)
+        mysql = MysqlNullDriver(configuration=self.CONFIG)
         try:
             mysql.run_script("script_that_doesnt_exist.sql")
             self.fail('Should have failed')
@@ -48,7 +49,7 @@ class TestMysqlNullDriver(unittest.TestCase):
 
     def test_run_script_syntax_error(self):
         script = os.path.join(self.SCRIPT_DIR, 'test_mysql_null_driver_error.sql')
-        mysql = mysql_null_driver.MysqlNullDriver(configuration=self.CONFIG)
+        mysql = MysqlNullDriver(configuration=self.CONFIG)
         try:
             mysql.run_script(script)
             self.fail('Should have failed')
@@ -59,7 +60,7 @@ class TestMysqlNullDriver(unittest.TestCase):
         query = "%s %s %s"
         parameters = [1, 'deux', datetime.datetime(2014, 01, 22, 13, 10, 33)]
         expected = "1 'deux' '2014-01-22 13:10:33'"
-        actual = mysql_null_driver.MysqlNullDriver._process_parameters(query, parameters) #pylint: disable=W0212
+        actual = MysqlNullDriver._process_parameters(query, parameters) #pylint: disable=W0212
         self.assertEqual(expected, actual)
     
     def test_cast(self):
