@@ -82,9 +82,7 @@ class TestMysqlNullDriver(unittest.TestCase):
     
     def test_cast_query(self):
         driver = MysqlNullDriver(configuration=self.CONFIG, cast=True)
-        driver.run_query("DROP TABLE IF EXISTS test")
-        driver.run_query("CREATE TABLE test (i INTEGER, f FLOAT, d DATETIME, s VARCHAR(255))")
-        driver.run_query("INSERT INTO test (i, f, d, s) VALUES (123, 1.23, '2014-03-29 11:18:00', 'test')")
+        driver.run_script(os.oath.join(self.SCRIPT_DIR, 'test_mysql_null_driver_cast_query.sql'))
         expected = ({'i': 123, 'f': 1.23, 'd': datetime.datetime(2014, 3, 29, 11, 18, 0), 's': u'test'},)
         actual = driver.run_query("SELECT i, f, d, s FROM test")
         self.assertEqual(expected, actual)
