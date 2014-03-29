@@ -10,11 +10,16 @@ import subprocess
 class MysqlNullDriver(object):
 
     ISO_FORMAT = '%Y-%m-%d %H:%M:%S'
+    CASTS = {
+        r'-?\d+': int,
+        r'-?\d*\.?\d*(E-?\d+)?': float,
+        r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lamda d: datetime.strptime(ISO_FORMAT, d),
+    }
 
     def __init__(self, configuration=None,
                  hostname=None, database=None,
                  username=None, password=None,
-                 charset=None):
+                 charset=None, cast=False):
         if hostname and database and username and password:
             self.hostname = hostname
             self.database = database
@@ -35,6 +40,7 @@ class MysqlNullDriver(object):
                 self.charset = None
         else:
             raise Exception('Missing database configuration')
+        self.cast = cast
 
     def run_query(self, query, parameters=None):
         query = self._process_parameters(query, parameters)
@@ -53,13 +59,7 @@ class MysqlNullDriver(object):
                        '-B', '-e', query, self.database]
         output = self._execute_with_output(command)
         if output:
-            result = []
-            lines = output.strip().split('\n')
-            fields = lines[0].split('\t')
-            for line in lines[1:]:
-                values = line.split('\t')
-                result.append(dict(zip(fields, values)))
-            return tuple(result)
+            return self._output_to_result(output)
 
     def run_script(self, script):
         if self.charset:
@@ -87,8 +87,21 @@ class MysqlNullDriver(object):
         fields = lines[0].split('\t')
         for line in lines[1:]:
             values = line.split('\t')
+            if self.cast:
+                values = self._cast_list(values)
             result.append(dict(zip(fields, values)))
         return tuple(result)
+    
+    @staticmethod
+    def _cast_list(values):
+        return [self._cast(value) for value in values]
+    
+    @staticmethod
+    def _cast(value):
+        for regexp, function in MysqlNullDriver.CASTS:
+            if re.match("^%s$" % regexp, value):
+                return function(value)
+        return value
     
     @staticmethod
     def _execute_with_output(command, stdin=None):
