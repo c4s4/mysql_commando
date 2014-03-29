@@ -100,7 +100,7 @@ class MysqlNullDriver(object):
     def _cast(value):
         for regexp in MysqlNullDriver.CASTS:
             if re.match("^%s$" % regexp, value):
-                return MydslNullDriver.CASTS[regexp](value)
+                return MysqlNullDriver.CASTS[regexp](value)
         return value
     
     @staticmethod
