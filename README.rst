@@ -94,16 +94,25 @@ You may also disable casting when instantiating the driver, passing
 calls to ``run_query()`` or ``run_script()`` except if you pass a different
 value while calling these methods.
 
-Last inserted ID
-================
+Last insert ID
+==============
 
-If you need to get ID of the last ``INSERT``, just add a call to MySQL function
-``last_insert_id()`` like so::
+To get the ID of the last ``INSERT`` of a given query, you can pass
+``last_insert_id=True`` while calling ``run_query()``, as follows::
+
+    query = "INSERT INTO animals (name, age) VALUES ('Reglisse', 14)"
+    id = mysql.run_query(query, last_insert_id=True)
+    print id
+
+This will return the last ``INSERT`` ID as an integer.
+
+If you need to get ID of the last ``INSERT`` running a script, just add a call to 
+MySQL function ``last_insert_id()`` like so::
 
     INSERT INTO animals (name, age) VALUES ('Reglisse', 14);
     SELECT last_insert_id() AS id;
 
-While you run this query, this will return the ID of your last ``INSERT``::
+While you run this script, this will return the ID of your last ``INSERT``::
 
     ({'id': '42'},)
 
@@ -116,6 +125,7 @@ install it on the target machine.
 Releases
 ========
 
+- **0.4.0** (*2014-04-01*): Added last_insert_id feature.
 - **0.3.2** (*2014-04-01*): Project renamed **mysql_commando**.
 - **0.3.1** (*2014-03-31*): Fixed documentation for Github and Pypi.
 - **0.3.0** (*2014-03-31*): Added cast feature and unit tests.
