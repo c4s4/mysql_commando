@@ -85,14 +85,14 @@ class TestMysqlNullDriver(unittest.TestCase):
         driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_null_driver_cast_query.sql'))
         expected = (
             {'i': 123, 'f': 1.23, 'd': datetime.datetime(2014, 3, 29, 11, 18, 0), 's': 'test'},
-            {'i': -456, 'f': -1.2e34, 'd': datetime.datetime(2014, 3, 29), 's': ' 123'},
+            {'i': -456, 'f': -1.2e-34, 'd': datetime.datetime(2014, 3, 29), 's': ' 123'},
         )
         actual = driver.run_query("SELECT i, f, d, s FROM test", cast=True)
         self.assertEqual(expected, actual)
         driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_null_driver_cast_query.sql'))
         expected = (
             {'i': '123', 'f': '1.23', 'd': '2014-03-29 11:18:00', 's': 'test'},
-            {'i': '-456', 'f': '-1.2e+34', 'd': '2014-03-29 00:00:00', 's': ' 123'},
+            {'i': '-456', 'f': '-1.2e-34', 'd': '2014-03-29 00:00:00', 's': ' 123'},
         )
         actual = driver.run_query("SELECT i, f, d, s FROM test", cast=False)
         self.assertEqual(expected, actual)
