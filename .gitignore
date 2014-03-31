@@ -3,5 +3,4 @@ env
 .idea
 *.pyc
 setup.py
-README
 MANIFEST
