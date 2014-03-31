@@ -6,7 +6,7 @@
   alias:
     release:
     - py_clean
-    - py_test
+    - test
     - dist
     - upload
     - tag
@@ -32,7 +32,21 @@
     - "MANIFEST"
 
 # Build targets
-- target:      setup                                                                                                                                                 
+- target:      check_env
+  description: Check that we are running in the project's Virtualenv
+  script:
+  - if: "`which python` !~ /^#{base}\/env\/bin\/python$/"
+    then:
+    - raise: "You are not running in the project's Virtualenv, aborting"
+    else:
+    - print: "You are running in the project's Virtualenv, please proceed"
+
+- target:      test
+  depends:     [check_env, py_test]
+  description: Run unit tests
+
+
+- target:      setup
   description: Generate setup file
   script:
   - erb:
@@ -62,4 +76,3 @@
   description: Tag the release
   script:
   - "git tag -a 'RELEASE-#{version}' -m 'Release #{version}'"
-
