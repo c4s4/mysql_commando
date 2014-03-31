@@ -57,7 +57,7 @@ You may not provide parameters running a script. To do so, call run_query() with
 Result set types
 ================
 
-mysql_null_driver performs auto casting before returning result sets. As it calls MySQL on command line, every value in the result set is a string. For conveniency, it casts integers, floats and dates into native Pythpn types.
+mysql_null_driver performs auto casting before returning result sets. As it calls MySQL on command line, every value in the result set is a string. For convenience, it casts integers, floats and dates into native Python types.
 
 There are situations where this might not be accurate. For instance, if a column is of SQL type VARCHAR(10) and contain phone numbers, all its values will be casted to Python integers. It should not because phone numbers can start with 0 and it should not be turned to integer.
 

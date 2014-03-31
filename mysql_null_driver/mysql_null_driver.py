@@ -20,7 +20,7 @@ class MysqlNullDriver(object):
     def __init__(self, configuration=None,
                  hostname=None, database=None,
                  username=None, password=None,
-                 encoding=None, cast=False):
+                 encoding=None, cast=True):
         if hostname and database and username and password:
             self.hostname = hostname
             self.database = database
@@ -43,7 +43,7 @@ class MysqlNullDriver(object):
             raise Exception('Missing database configuration')
         self.cast = cast
 
-    def run_query(self, query, parameters=None):
+    def run_query(self, query, parameters=None, cast=None):
         query = self._process_parameters(query, parameters)
         if self.encoding:
             command = ['mysql',
@@ -59,10 +59,12 @@ class MysqlNullDriver(object):
                        '-h%s' % self.hostname,
                        '-B', '-e', query, self.database]
         output = self._execute_with_output(command)
+        if cast is None:
+            cast = self.cast
         if output:
-            return self._output_to_result(output)
+            return self._output_to_result(output, cast=cast)
 
-    def run_script(self, script):
+    def run_script(self, script, cast=None):
         if self.encoding:
             command = ['mysql',
                        '-u%s' % self.username,
@@ -76,12 +78,14 @@ class MysqlNullDriver(object):
                        '-p%s' % self.password,
                        '-h%s' % self.hostname,
                        '-B', self.database]
+        if cast is None:
+            cast = self.cast
         with open(script) as stdin:
             output = self._execute_with_output(command, stdin=stdin)
         if output:
-            return self._output_to_result(output)
+            return self._output_to_result(output, cast=cast)
 
-    def _output_to_result(self, output):
+    def _output_to_result(self, output, cast):
         if self.encoding:
             output = unicode(output, encoding=self.encoding, errors='replace')
         else:
@@ -91,7 +95,7 @@ class MysqlNullDriver(object):
         fields = lines[0].split('\t')
         for line in lines[1:]:
             values = line.split('\t')
-            if self.cast:
+            if cast:
                 values = MysqlNullDriver._cast_list(values)
             result.append(dict(zip(fields, values)))
         return tuple(result)
