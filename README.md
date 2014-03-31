@@ -121,6 +121,7 @@ install it on the target machine.
 
 ## Releases
 
+- *0.3.1* (2014-03-31): Improved documentation in README for Github.
 - *0.3.0* (2014-03-31): Added cast feature and unit tests.
 - *0.2.0* (2014-03-26): Improved documentation and module refactoring (to move
   code outside \_\_init\_\_.py module).
