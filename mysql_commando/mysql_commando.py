@@ -14,7 +14,7 @@ class MysqlCommando(object):
     CASTS = (
         (r'-?\d+', int),
         (r'-?\d*\.?\d*([Ee][+-]?\d+)?', float),
-        (r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d', lambda d: datetime.datetime.strptime(d, MysqlNullDriver.ISO_FORMAT)),
+        (r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d', lambda d: datetime.datetime.strptime(d, MysqlCommando.ISO_FORMAT)),
     )
 
     def __init__(self, configuration=None,
@@ -96,17 +96,17 @@ class MysqlCommando(object):
         for line in lines[1:]:
             values = line.split('\t')
             if cast:
-                values = MysqlNullDriver._cast_list(values)
+                values = MysqlCommando._cast_list(values)
             result.append(dict(zip(fields, values)))
         return tuple(result)
 
     @staticmethod
     def _cast_list(values):
-        return [MysqlNullDriver._cast(value) for value in values]
+        return [MysqlCommando._cast(value) for value in values]
 
     @staticmethod
     def _cast(value):
-        for regexp, function in MysqlNullDriver.CASTS:
+        for regexp, function in MysqlCommando.CASTS:
             if re.match("^%s$" % regexp, value):
                 return function(value)
         return value
@@ -127,23 +127,23 @@ class MysqlCommando(object):
         if not parameters:
             return query
         if isinstance(parameters, (list, tuple)):
-            parameters = tuple(MysqlNullDriver._format_parameters(parameters))
+            parameters = tuple(MysqlCommando._format_parameters(parameters))
         elif isinstance(parameters, dict):
-            parameters = dict(zip(parameters.keys(), MysqlNullDriver._format_parameters(parameters.values())))
+            parameters = dict(zip(parameters.keys(), MysqlCommando._format_parameters(parameters.values())))
         return query % parameters
 
     @staticmethod
     def _format_parameters(parameters):
-        return [MysqlNullDriver._format_parameter(param) for param in parameters]
+        return [MysqlCommando._format_parameter(param) for param in parameters]
 
     @staticmethod
     def _format_parameter(parameter):
         if isinstance(parameter, (int, long, float)):
             return str(parameter)
         elif isinstance(parameter, (str, unicode)):
-            return "'%s'" % MysqlNullDriver._escape_string(parameter)
+            return "'%s'" % MysqlCommando._escape_string(parameter)
         elif isinstance(parameter, datetime.datetime):
-            return "'%s'" % parameter.strftime(MysqlNullDriver.ISO_FORMAT)
+            return "'%s'" % parameter.strftime(MysqlCommando.ISO_FORMAT)
         else:
             raise Exception("Type '%s' is not managed as a query parameter" % parameter.__class__.__name__)
 
