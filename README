@@ -92,7 +92,7 @@ This module is not intended to replace MySQLdb that you SHOULD use if you can in
 Releases
 ========
 
-- 0.3.0 (2014-??-??): ???.
+- 0.3.0 (2014-03-31): Added cast feature and unit tests.
 - 0.2.0 (2014-03-26): Improved documentation and module refactoring (to move code outside __init__.py module).
 - 0.1.0 (2014-03-25): First public release.
 
