@@ -16,6 +16,9 @@ class MysqlCommando(object):
         (r'-?\d*\.?\d*([Ee][+-]?\d+)?', float),
         (r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d', lambda d: datetime.datetime.strptime(d, MysqlCommando.ISO_FORMAT)),
     )
+    QUERY_LAST_INSERT_ID = """
+    ;SELECT last_insert_id() as last_insert_id;
+    """
 
     def __init__(self, configuration=None,
                  hostname=None, database=None,
@@ -43,8 +46,11 @@ class MysqlCommando(object):
             raise Exception('Missing database configuration')
         self.cast = cast
 
-    def run_query(self, query, parameters=None, cast=None):
+    def run_query(self, query, parameters=None, cast=None,
+                  last_insert_id=False):
         query = self._process_parameters(query, parameters)
+        if last_insert_id:
+            query += self.QUERY_LAST_INSERT_ID
         if self.encoding:
             command = ['mysql',
                        '-u%s' % self.username,
@@ -62,7 +68,11 @@ class MysqlCommando(object):
         if cast is None:
             cast = self.cast
         if output:
-            return self._output_to_result(output, cast=cast)
+            result = self._output_to_result(output, cast=cast)
+            if last_insert_id:
+                return int(result[0]['last_insert_id'])
+            else:
+                return result
 
     def run_script(self, script, cast=None):
         if self.encoding:
