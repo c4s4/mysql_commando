@@ -28,6 +28,7 @@
     - "**/*.pyc"
     - "**/*.pyo"
     - "setup.py"
+    - "README"
     - "MANIFEST"
 
 # Build targets
@@ -38,13 +39,17 @@
       src:  "setup.py.erb"
       dest: "setup.py"
 
+- target:      readme
+  description: Generate README for pypi
+  script:
+  - "pandoc -f markdown -t rst -o README"
+
 - target:      dist
-  depends:     setup
+  depends:     [setup, readme]
   description: Generate distribution archive
   script:
   - mkdir: :py_build_dir
   - "python setup.py sdist -d #{py_build_dir}"
-  - rm: "MANIFEST"
 
 - target:      upload
   depends:     setup
@@ -52,7 +57,6 @@
   script:
   - mkdir: :py_build_dir
   - "python setup.py sdist -d #{py_build_dir} register upload"
-  - rm: "MANIFEST"
 
 - target:      tag
   description: Tag the release
