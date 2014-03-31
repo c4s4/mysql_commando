@@ -15,7 +15,7 @@
 - properties:
     name:        mysql_commando
     package:     :name
-    version:     "0.3.1"
+    version:     "0.3.2"
     author:      "Michel Casabianca"
     email:       "casa@sweetohm.net"
     license:     "Apache Software License"
