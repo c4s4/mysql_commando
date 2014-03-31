@@ -114,7 +114,7 @@ MySQL function ``last_insert_id()`` like so::
 
 While you run this script, this will return the ID of your last ``INSERT``::
 
-    ({'id': '42'},)
+    ({'id': 1},)
 
 Note
 ====
