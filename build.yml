@@ -56,7 +56,7 @@
 - target:      readme
   description: Generate README for pypi
   script:
-  - "pandoc -f markdown -t rst -o README"
+  - "pandoc -f markdown -t rst -o README README.md"
 
 - target:      dist
   depends:     [setup, readme]
