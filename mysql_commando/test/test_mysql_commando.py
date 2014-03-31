@@ -100,8 +100,8 @@ class TestMysqlCommando(unittest.TestCase):
     def test_last_insert_id(self):
         driver = MysqlCommando(configuration=self.CONFIG)
         driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_commando_last_insert_id.sql'))
-        expected = ({'id': 1},)
-        actual = driver.run_query("INSERT INTO animals (name, age) VALUES ('Reglisse', 14);SELECT last_insert_id() AS id;")
+        expected = ({'last_insert_id': 1},)
+        actual = driver.run_query("INSERT INTO animals (name, age) VALUES ('Reglisse', 14)", last_insert_id=True)
         self.assertEqual(expected, actual)
 
 
