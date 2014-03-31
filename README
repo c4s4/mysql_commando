@@ -12,13 +12,13 @@ its module in your source tree or even copy its class in your own source code.
 
 To install mysql\_null\_driver, you may use one of the following methods:
 
--   Extract its unique class MysqlNullDriver from tarball (in file
-    mysql\_null\_driver/mysql\_null\_driver.py) and put it in your own source
-    code.
--   Drop its module (file mysql\_null\_driver/mysql\_null\_driver.py in the
-    tarball) in your source directory.
--   Install it using PIP, typing pip imstall mysql\_null\_driver.
--   Install from tarball typing python setup.py install.
+- Extract its unique class MysqlNullDriver from tarball (in file
+  mysql\_null\_driver/mysql\_null\_driver.py) and put it in your own source
+  code.
+- Drop its module (file mysql\_null\_driver/mysql\_null\_driver.py in the
+  tarball) in your source directory.
+- Install it using PIP, typing pip imstall mysql\_null\_driver.
+- Install from tarball typing python setup.py install.
 
 The Apache license grants you the right to use this driver in any of your
 project (even commercial) provided that you mention that you are using
@@ -28,35 +28,35 @@ mysql\_null\_driver in your copyright notice.
 
 You can use this driver in your code just like so:
 
-'''python
+```python
 from mysql_null_driver import MysqlNullDriver
 
 mysql = MysqlNullDriver(hostname='localhost', database='test',
                         username='test', password='test')
 result = mysql.run_query("SHOW DATABASES")
 print result
-'''
+```
 
 When query returns nothing (after an INSERT for instance), method run\_query()
 will return None. If query returns a result set, this will be a tuple of
 dictionaries. For instance, previous sample code could print:
 
-'''python
+```python
 ({'Database': 'information_schema'}, {'Database': 'mysql'})
-'''
+```
 
 Instead of running a query you may run a script as follows:
 
-'''python
+```python
 result = mysql.run_script('my_script.sql')
-'''
+```
 
 ## Parameters
 
 You can have values such as %(foo)s in you query that will be replaced with
 corresponding value of the parameters dictionary. For instance:
 
-'''python
+```python
 from mysql_null_driver import MysqlNullDriver
 
 mysql = MysqlNullDriver(hostname='localhost', database='test',
@@ -65,7 +65,7 @@ parameters = {'name': 'reglisse'}
 result = mysql.run_query(query="SELECT * FROM animals WHERE name=%(name)s",
                          parameters=parameters)
 print result
-'''
+```
 
 You may not provide parameters running a script. To do so, call run\_query()
 with parameters passing query open('my\_script.sql').read().
@@ -84,14 +84,14 @@ start with 0 and it should not be turned to integer.
 To avoid this, you may pass cast=False when calling run\_query() or
 run\_script(), as so:
 
-'''python
+```python
 from mysql_null_driver import MysqlNullDriver
 
 mysql = MysqlNullDriver(hostname='localhost', database='test',
                         username='test', password='test')
 result = mysql.run_query("SELECT phone FROM users WHERE name='bob')", cast=False)
 print result
-'''
+```
 
 You may also disable casting when instantiating the driver, passing cast=False
 to the constructor. This casting configuration will apply on all calls to
@@ -103,16 +103,16 @@ calling these methods.
 If you need to get ID of the last INSERT, just add a call to MySQL function
 last\_insert\_id() as so:
 
-'''sql
+```sql
 INSERT INTO animals (name, age) VALUES ('Reglisse', 14);
 SELECT last_insert_id() AS id;
-'''
+```
 
 While you run this query, this will return the ID of your last INSERT:
 
-'''python
+```python
 ({'id': '42'},)
-'''
+```
 
 ## Note
 
