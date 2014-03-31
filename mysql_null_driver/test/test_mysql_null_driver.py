@@ -62,7 +62,7 @@ class TestMysqlNullDriver(unittest.TestCase):
         expected = "1 'deux' '2014-01-22 13:10:33'"
         actual = MysqlNullDriver._process_parameters(query, parameters) #pylint: disable=W0212
         self.assertEqual(expected, actual)
-    
+
     def test_cast(self):
         expected = 1
         actual = MysqlNullDriver._cast("1")
@@ -79,7 +79,7 @@ class TestMysqlNullDriver(unittest.TestCase):
         expected = 'test'
         actual = MysqlNullDriver._cast('test')
         self.assertEqual(expected, actual)
-    
+
     def test_cast_query(self):
         driver = MysqlNullDriver(configuration=self.CONFIG, cast=True)
         driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_null_driver_cast_query.sql'))

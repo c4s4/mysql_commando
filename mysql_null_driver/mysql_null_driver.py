@@ -80,7 +80,7 @@ class MysqlNullDriver(object):
             output = self._execute_with_output(command, stdin=stdin)
         if output:
             return self._output_to_result(output)
-    
+
     def _output_to_result(self, output):
         if self.encoding:
             output = unicode(output, encoding=self.encoding, errors='replace')
@@ -95,11 +95,11 @@ class MysqlNullDriver(object):
                 values = MysqlNullDriver._cast_list(values)
             result.append(dict(zip(fields, values)))
         return tuple(result)
-    
+
     @staticmethod
     def _cast_list(values):
         return [MysqlNullDriver._cast(value) for value in values]
-    
+
     @staticmethod
     def _cast(value):
         for regexp in MysqlNullDriver.CASTS:
