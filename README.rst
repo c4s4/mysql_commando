@@ -1,12 +1,12 @@
 =================
-mysql_null_driver
+mysql_commando
 =================
 
 Installing a MySQL driver on a machine is sometime a pain, or even impossible.
 Furthermore you may want to distribute self contained scripts that access MySQL
 without having to ask for additional software installation.
 
-**mysql_null_driver** is a pure Python MySQL driver that calls MySQL running
+**mysql_commando** is a pure Python MySQL driver that calls MySQL running
 the client on the command line. It was designed so that you may use it by
 dropping its module in your source tree or even copy its class in your own
 source code.
@@ -14,28 +14,28 @@ source code.
 Installation
 ============
 
-To install **mysql_null_driver**, you may use one of the following methods:
+To install **mysql_commando**, you may use one of the following methods:
 
-- Extract its unique class ``MysqlNullDriver`` from tarball (in file
-  *mysql_null_driver/mysql_null_driver.py*) and put it in your own source code.
-- Drop its module (file *mysql_null_driver/mysql_null_driver.py* in the tarball)
+- Extract its unique class ``MysqlCommando`` from tarball (in file
+  *mysql_commando/mysql_commando.py*) and put it in your own source code.
+- Drop its module (file *mysql_commando/mysql_commando.py* in the tarball)
   in your source directory.
-- Install it using PIP, typing ``pip install mysql_null_driver``.
+- Install it using PIP, typing ``pip install mysql_commando``.
 - Install from tarball typing ``python setup.py install``.
 
 The Apache license grants you a right to use this driver in any of your project
 (even commercial) provided that you mention that you are using
-**mysql_null_driver** in your copyright notice.
+**mysql_commando** in your copyright notice.
 
 Usage
 =====
 
 You can use this driver in your code just like so::
 
-    from mysql_null_driver import MysqlNullDriver
+    from mysql_commando import MysqlCommando
     
-    mysql = MysqlNullDriver(hostname='localhost', database='test',
-                            username='test', password='test')
+    mysql = MysqlCommando(hostname='localhost', database='test',
+                          username='test', password='test')
     result = mysql.run_query("SHOW DATABASES")
     print result
 
@@ -55,10 +55,10 @@ Parameters
 You can have values such as ``%(foo)s`` in you query that will be replaced
 with corresponding value of the parameters dictionary. For instance::
 
-    from mysql_null_driver import MysqlNullDriver
+    from mysql_commando import MysqlCommando
 
-    mysql = MysqlNullDriver(hostname='localhost', database='test',
-                            username='test', password='test')
+    mysql = MysqlCommando(hostname='localhost', database='test',
+                          username='test', password='test')
     parameters = {'name': 'reglisse'}
     result = mysql.run_query(query="SELECT * FROM animals WHERE name=%(name)s",
                              parameters=parameters)
@@ -70,7 +70,7 @@ with parameters passing query ``open('my_script.sql').read()``.
 Result set types
 ================
 
-**mysql_null_driver** performs auto casting before returning result sets. As it
+**mysql_commando** performs auto casting before returning result sets. As it
 calls MySQL on command line, every value in the result set is a string. For
 convenience, it casts integers, floats and dates into native Python types.
 
@@ -82,10 +82,10 @@ casted to Python integers. It should not because phone numbers can start with
 To avoid this, you may pass ``cast=False`` when calling ``run_query()`` or
 ``run_script()``, like so::
 
-    from mysql_null_driver import MysqlNullDriver
+    from mysql_commando import MysqlCommando
     
-    mysql = MysqlNullDriver(hostname='localhost', database='test',
-                            username='test', password='test')
+    mysql = MysqlCommando(hostname='localhost', database='test',
+                          username='test', password='test')
     result = mysql.run_query("SELECT phone FROM users WHERE name='bob')", cast=False)
     print result
 
@@ -116,6 +116,7 @@ install it on the target machine.
 Releases
 ========
 
+- **0.3.2** (*2014-04-01*): Project renamed **mysql_commando**.
 - **0.3.1** (*2014-03-31*): Fixed documentation for Github and Pypi.
 - **0.3.0** (*2014-03-31*): Added cast feature and unit tests.
 - **0.2.0** (*2014-03-26*): Improved documentation and module refactoring (to move code outside __init__.py module).

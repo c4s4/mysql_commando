@@ -1,6 +1,6 @@
 # Build information
-- build:       mysql_null_driver
-  description: Build project mysql_null_driver
+- build:       mysql_commando
+  description: Build project mysql_commando
   extends:     ':python:python.yml'
   default:     [clean, test]
   alias:
@@ -13,13 +13,13 @@
 
 # Build properties
 - properties:
-    name:        mysql_null_driver
+    name:        mysql_commando
     package:     :name
     version:     "0.3.1"
     author:      "Michel Casabianca"
     email:       "casa@sweetohm.net"
     license:     "Apache Software License"
-    description: "Mysql_null_driver is a lightweight MySQL driver"
+    description: "mysql_commando is a lightweight MySQL driver"
     py_src_dir:  :name
     py_chk_src:  :name
     py_chk_cfg:  "pylint.cfg"

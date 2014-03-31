@@ -8,7 +8,7 @@ import subprocess
 
 
 #pylint: disable=E1103
-class MysqlNullDriver(object):
+class MysqlCommando(object):
 
     ISO_FORMAT = '%Y-%m-%d %H:%M:%S'
     CASTS = (
