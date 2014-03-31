@@ -15,7 +15,7 @@
 - properties:
     name:        mysql_null_driver
     package:     :name
-    version:     "0.2.0"
+    version:     "0.3.0"
     author:      "Michel Casabianca"
     email:       "casa@sweetohm.net"
     license:     "Apache Software License"
