@@ -32,8 +32,6 @@ Usage
 
 You can use this driver in your code just like so::
 
-.. code:: python
-
     from mysql_null_driver import MysqlNullDriver
     
     mysql = MysqlNullDriver(hostname='localhost', database='test',
@@ -45,12 +43,10 @@ When query returns nothing (after an ``INSERT`` for instance), method
 ``run_query()`` will return ``None``. If query returns a result set, this will
 be a tuple of dictionaries. For instance, previous sample code could print::
 
- code:: python
     ({'Database': 'information_schema'}, {'Database': 'mysql'})
 
 Instead of running a query you may run a script as follows::
 
- code:: python
     result = mysql.run_script('my_script.sql')
 
 Parameters
@@ -59,7 +55,6 @@ Parameters
 You can have values such as ``%(foo)s`` in you query that will be replaced
 with corresponding value of the parameters dictionary. For instance::
 
- code:: python
     from mysql_null_driver import MysqlNullDriver
 
     mysql = MysqlNullDriver(hostname='localhost', database='test',
@@ -87,8 +82,6 @@ casted to Python integers. It should not because phone numbers can start with
 To avoid this, you may pass ``cast=False`` when calling ``run_query()`` or
 ``run_script()``, like so::
 
- code:: python
-
     from mysql_null_driver import MysqlNullDriver
     
     mysql = MysqlNullDriver(hostname='localhost', database='test',
@@ -107,14 +100,10 @@ Last inserted ID
 If you need to get ID of the last ``INSERT``, just add a call to MySQL function
 ``last_insert_id()`` like so::
 
- code:: python
-
     INSERT INTO animals (name, age) VALUES ('Reglisse', 14);
     SELECT last_insert_id() AS id;
 
 While you run this query, this will return the ID of your last ``INSERT``::
-
- code:: python
 
     ({'id': '42'},)
 
