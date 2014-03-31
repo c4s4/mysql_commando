@@ -103,6 +103,9 @@ class TestMysqlCommando(unittest.TestCase):
         expected = 1
         actual = driver.run_query("INSERT INTO animals (name, age) VALUES ('Reglisse', 14)", last_insert_id=True)
         self.assertEqual(expected, actual)
+        expected = ({'id': 1},)
+        actual = driver.run_script( 'test_mysql_commando_last_insert_id_insert.sql')
+        self.assertEqual(expected, actual)
 
 
 if __name__ == '__main__':
