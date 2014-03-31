@@ -70,6 +70,8 @@ To avoid this, you may pass cast=False when calling run_query() or run_script(),
     result = mysql.run_query("SELECT phone FROM users WHERE name='bob')", cast=False)
     print result
 
+You may also disable casting when instantiating the driver, passing cast=False to the constructor. This casting configuration will apply on all calls to run_query() or run_script() except if you pass a different value while calling these methods.
+
 Last inserted ID
 ================
 
