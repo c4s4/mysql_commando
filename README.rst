@@ -9,11 +9,11 @@ mysql_null_driver is a pure Python MySQL driver that calls MySQL running the cli
 Installation
 ============
 
-To install mysql_null_driver, you may use one of the following methods::
+To install mysql_null_driver, you may use one of the following methods:
 
 - Extract its unique class MysqlNullDriver from tarball (in file mysql_null_driver/mysql_null_driver.py) and put it in your own source code.
 - Drop its module (file mysql_null_driver/mysql_null_driver.py in the tarball) in your source directory.
-- Install it using PIP, typing pip imstall mysql_null_driver.
+- Install it using PIP, typing pip install mysql_null_driver.
 - Install from tarball typing python setup.py install.
 
 The Apache license grants you the right to use this driver in any of your project (even commercial) provided that you mention that you are using mysql_null_driver in your copyright notice.
@@ -92,6 +92,7 @@ This module is not intended to replace MySQLdb that you SHOULD use if you can in
 Releases
 ========
 
+- 0.3.1 (2014-03-31): Fixed documentation for Github and Pypi.
 - 0.3.0 (2014-03-31): Added cast feature and unit tests.
 - 0.2.0 (2014-03-26): Improved documentation and module refactoring (to move code outside __init__.py module).
 - 0.1.0 (2014-03-25): First public release.
