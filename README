@@ -75,8 +75,7 @@ You may also disable casting when instantiating the driver, passing cast=False t
 Last inserted ID
 ================
 
-If you need to get ID of the last INSERT, just add a call to MySQL function
-last_insert_id() as so::
+If you need to get ID of the last INSERT, just add a call to MySQL function last_insert_id() as so::
 
     INSERT INTO animals (name, age) VALUES ('Reglisse', 14);
     SELECT last_insert_id() AS id;
@@ -88,14 +87,13 @@ While you run this query, this will return the ID of your last INSERT::
 Note
 ====
 
-This module is not intended to replace MySQLdb that you SHOULD use if you can
-install it on the target machine.
+This module is not intended to replace MySQLdb that you SHOULD use if you can install it on the target machine.
 
 Releases
 ========
 
+- 0.3.0 (2014-??-??): ???.
+- 0.2.0 (2014-03-26): Improved documentation and module refactoring (to move code outside __init__.py module).
 - 0.1.0 (2014-03-25): First public release.
-- 0.2.0 (2014-03-26): Improved documentation and module refactoring (to move
-  code outside __init__.py module).
 
 Enjoy!

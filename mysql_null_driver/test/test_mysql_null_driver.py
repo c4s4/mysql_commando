@@ -97,6 +97,13 @@ class TestMysqlNullDriver(unittest.TestCase):
         actual = driver.run_query("SELECT i, f, d, s FROM test", cast=False)
         self.assertEqual(expected, actual)
 
+    def test_last_insert_id(self):
+        driver = MysqlNullDriver(configuration=self.CONFIG)
+        driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_null_driver_last_insert_id.sql'))
+        expected = ({'id': 1},)
+        actual = driver.run_query("INSERT INTO animals (name, age) VALUES ('Reglisse', 14);SELECT last_insert_id() AS id;")
+        self.assertEqual(expected, actual)
+
 
 if __name__ == '__main__':
     unittest.main()
