@@ -11,11 +11,11 @@ import subprocess
 class MysqlNullDriver(object):
 
     ISO_FORMAT = '%Y-%m-%d %H:%M:%S'
-    CASTS = {
-        r'-?\d+': int,
-        r'-?\d*\.?\d*([Ee]-?\d+)?': float,
-        r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d': lambda d: datetime.datetime.strptime(d, MysqlNullDriver.ISO_FORMAT),
-    }
+    CASTS = (
+        (r'-?\d+', int),
+        (r'-?\d*\.?\d*([Ee][+-]?\d+)?', float),
+        (r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d', lambda d: datetime.datetime.strptime(d, MysqlNullDriver.ISO_FORMAT)),
+    )
 
     def __init__(self, configuration=None,
                  hostname=None, database=None,
@@ -102,9 +102,9 @@ class MysqlNullDriver(object):
 
     @staticmethod
     def _cast(value):
-        for regexp in MysqlNullDriver.CASTS:
+        for regexp, function in MysqlNullDriver.CASTS:
             if re.match("^%s$" % regexp, value):
-                return MysqlNullDriver.CASTS[regexp](value)
+                return function(value)
         return value
     
     @staticmethod
