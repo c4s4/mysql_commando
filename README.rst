@@ -2,21 +2,30 @@
 mysql_null_driver
 =================
 
-Installing a MySQL driver on a machine is sometime a pain, or even impossible. Furthermore you may want to distribute self contained scripts that access MySQL without having to ask for additional software installation.
+Installing a MySQL driver on a machine is sometime a pain, or even impossible.
+Furthermore you may want to distribute self contained scripts that access MySQL
+without having to ask for additional software installation.
 
-mysql_null_driver is a pure Python MySQL driver that calls MySQL running the client on the command line. It was designed so that you may use it by dropping its module in your source tree or even copy its class in your own source code.
+**mysql_null_driver** is a pure Python MySQL driver that calls MySQL running
+the client on the command line. It was designed so that you may use it by
+dropping its module in your source tree or even copy its class in your own
+source code.
 
 Installation
 ============
 
-To install mysql_null_driver, you may use one of the following methods:
+To install **mysql_null_driver**, you may use one of the following methods:
 
-- Extract its unique class MysqlNullDriver from tarball (in file mysql_null_driver/mysql_null_driver.py) and put it in your own source code.
-- Drop its module (file mysql_null_driver/mysql_null_driver.py in the tarball) in your source directory.
-- Install it using PIP, typing pip install mysql_null_driver.
-- Install from tarball typing python setup.py install.
+- Extract its unique class ``MysqlNullDriver`` from tarball (in file
+  *mysql_null_driver/mysql_null_driver.py*) and put it in your own source code.
+- Drop its module (file *mysql_null_driver/mysql_null_driver.py* in the tarball)
+  in your source directory.
+- Install it using PIP, typing ``pip install mysql_null_driver``.
+- Install from tarball typing ``python setup.py install``.
 
-The Apache license grants you the right to use this driver in any of your project (even commercial) provided that you mention that you are using mysql_null_driver in your copyright notice.
+The Apache license grants you a right to use this driver in any of your project
+(even commercial) provided that you mention that you are using
+**mysql_null_driver** in your copyright notice.
 
 Usage
 =====
@@ -30,7 +39,9 @@ You can use this driver in your code just like so::
     result = mysql.run_query("SHOW DATABASES")
     print result
 
-When query returns nothing (after an INSERT for instance), method run_query() will return None. If query returns a result set, this will be a tuple of dictionaries. For instance, previous sample code could print::
+When query returns nothing (after an ``INSERT`` for instance), method
+``run_query()`` will return ``None``. If query returns a result set, this will
+be a tuple of dictionaries. For instance, previous sample code could print::
 
     ({'Database': 'information_schema'}, {'Database': 'mysql'})
 
@@ -41,7 +52,8 @@ Instead of running a query you may run a script as follows::
 Parameters
 ==========
 
-You can have values such as %(foo)s in you query that will be replaced with corresponding value of the parameters dictionary. For instance::
+You can have values such as ``%(foo)s`` in you query that will be replaced
+with corresponding value of the parameters dictionary. For instance::
 
     from mysql_null_driver import MysqlNullDriver
 
@@ -52,16 +64,23 @@ You can have values such as %(foo)s in you query that will be replaced with corr
                              parameters=parameters)
     print result
 
-You may not provide parameters running a script. To do so, call run_query() with parameters passing query open('my_script.sql').read().
+You may not provide parameters running a script. To do so, call ``run_query()``
+with parameters passing query ``open('my_script.sql').read()``.
 
 Result set types
 ================
 
-mysql_null_driver performs auto casting before returning result sets. As it calls MySQL on command line, every value in the result set is a string. For convenience, it casts integers, floats and dates into native Python types.
+**mysql_null_driver** performs auto casting before returning result sets. As it
+calls MySQL on command line, every value in the result set is a string. For
+convenience, it casts integers, floats and dates into native Python types.
 
-There are situations where this might not be accurate. For instance, if a column is of SQL type VARCHAR(10) and contain phone numbers, all its values will be casted to Python integers. It should not because phone numbers can start with 0 and it should not be turned to integer.
+There are situations where this might not be accurate. For instance, if a column
+is of SQL type ``VARCHAR(10)`` and contain phone numbers, all its values will be
+casted to Python integers. It should not because phone numbers can start with
+*0* and it should not be turned to integer.
 
-To avoid this, you may pass cast=False when calling run_query() or run_script(), as so::
+To avoid this, you may pass ``cast=False`` when calling ``run_query()`` or
+``run_script()``, like so::
 
     from mysql_null_driver import MysqlNullDriver
     
@@ -70,31 +89,36 @@ To avoid this, you may pass cast=False when calling run_query() or run_script(),
     result = mysql.run_query("SELECT phone FROM users WHERE name='bob')", cast=False)
     print result
 
-You may also disable casting when instantiating the driver, passing cast=False to the constructor. This casting configuration will apply on all calls to run_query() or run_script() except if you pass a different value while calling these methods.
+You may also disable casting when instantiating the driver, passing
+``cast=False`` to the constructor. This casting configuration will apply on all
+calls to ``run_query()`` or ``run_script()`` except if you pass a different
+value while calling these methods.
 
 Last inserted ID
 ================
 
-If you need to get ID of the last INSERT, just add a call to MySQL function last_insert_id() as so::
+If you need to get ID of the last ``INSERT``, just add a call to MySQL function
+``last_insert_id()`` like so::
 
     INSERT INTO animals (name, age) VALUES ('Reglisse', 14);
     SELECT last_insert_id() AS id;
 
-While you run this query, this will return the ID of your last INSERT::
+While you run this query, this will return the ID of your last ``INSERT``::
 
     ({'id': '42'},)
 
 Note
 ====
 
-This module is not intended to replace MySQLdb that you SHOULD use if you can install it on the target machine.
+This module is not intended to replace MySQLdb that you SHOULD use if you can
+install it on the target machine.
 
 Releases
 ========
 
-- 0.3.1 (2014-03-31): Fixed documentation for Github and Pypi.
-- 0.3.0 (2014-03-31): Added cast feature and unit tests.
-- 0.2.0 (2014-03-26): Improved documentation and module refactoring (to move code outside __init__.py module).
-- 0.1.0 (2014-03-25): First public release.
+- **0.3.1** (*2014-03-31*): Fixed documentation for Github and Pypi.
+- **0.3.0** (*2014-03-31*): Added cast feature and unit tests.
+- **0.2.0** (*2014-03-26*): Improved documentation and module refactoring (to move code outside __init__.py module).
+- **0.1.0** (*2014-03-25*): First public release.
 
 Enjoy!
