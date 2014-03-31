@@ -32,7 +32,8 @@ Usage
 
 You can use this driver in your code just like so::
 
- code:: python
+.. code:: python
+
     from mysql_null_driver import MysqlNullDriver
     
     mysql = MysqlNullDriver(hostname='localhost', database='test',
