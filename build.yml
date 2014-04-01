@@ -4,6 +4,9 @@
   extends:     ':python:python.yml'
   default:     [clean, test]
   alias:
+    test:
+    - check_env
+    - py_test
     release:
     - py_clean
     - test
@@ -39,11 +42,6 @@
     - raise: "You are not running in the project's Virtualenv, aborting"
     else:
     - print: "You are running in the project's Virtualenv, please proceed"
-
-- target:      test
-  depends:     [check_env, py_test]
-  description: Run unit tests
-
 
 - target:      setup
   description: Generate setup file
