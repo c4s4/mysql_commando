@@ -9,7 +9,8 @@
     - py_test
     release:
     - py_clean
-    - test
+    - check_env
+    - py_test
     - dist
     - upload
     - tag
