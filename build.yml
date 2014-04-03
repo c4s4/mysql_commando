@@ -71,3 +71,5 @@
   description: Tag the release
   script:
   - "git tag -a 'RELEASE-#{version}' -m 'Release #{version}'"
+  - "git push --tags"
+
