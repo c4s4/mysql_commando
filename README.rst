@@ -125,6 +125,7 @@ install it on the target machine.
 Releases
 ========
 
+- **0.4.2** (*2014-04-03*): Fixed packaging issue.
 - **0.4.1** (*2014-04-01*): Documentation fixes and added unit tests.
 - **0.4.0** (*2014-04-01*): Added last_insert_id feature.
 - **0.3.2** (*2014-04-01*): Project renamed **mysql_commando**.
