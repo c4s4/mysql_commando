@@ -18,7 +18,7 @@ class TestMysqlCommando(unittest.TestCase):
         'username': 'test',
         'password': 'test',
     }
-    SCRIPT_DIR = os.path.dirname(__file__)
+    SQL_DIR = os.path.join(os.path.dirname(__file__), 'sql')
 
     def test_run_query_nominal(self):
         mysql = MysqlCommando(configuration=self.CONFIG)
@@ -34,7 +34,7 @@ class TestMysqlCommando(unittest.TestCase):
             self.assertTrue("You have an error in your SQL syntax" in e.message)
 
     def test_run_script_nominal(self):
-        script = os.path.join(self.SCRIPT_DIR, 'test_mysql_commando.sql')
+        script = os.path.join(self.SQL_DIR, 'test_mysql_commando.sql')
         mysql = MysqlCommando(configuration=self.CONFIG)
         result = mysql.run_script(script)
         self.assertTrue('information_schema' in [entry['Database'] for entry in result])
@@ -48,7 +48,7 @@ class TestMysqlCommando(unittest.TestCase):
             self.assertTrue("No such file or directory: 'script_that_doesnt_exist.sql'" in str(e))
 
     def test_run_script_syntax_error(self):
-        script = os.path.join(self.SCRIPT_DIR, 'test_mysql_commando_error.sql')
+        script = os.path.join(self.SQL_DIR, 'test_mysql_commando_error.sql')
         mysql = MysqlCommando(configuration=self.CONFIG)
         try:
             mysql.run_script(script)
@@ -82,14 +82,14 @@ class TestMysqlCommando(unittest.TestCase):
 
     def test_cast_query(self):
         driver = MysqlCommando(configuration=self.CONFIG)
-        driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_commando_cast_query.sql'))
+        driver.run_script(os.path.join(self.SQL_DIR, 'test_mysql_commando_cast_query.sql'))
         expected = (
             {'i': 123, 'f': 1.23, 'd': datetime.datetime(2014, 3, 29, 11, 18, 0), 's': 'test'},
             {'i': -456, 'f': -1.2e-34, 'd': datetime.datetime(2014, 3, 29), 's': ' 123'},
         )
         actual = driver.run_query("SELECT i, f, d, s FROM test", cast=True)
         self.assertEqual(expected, actual)
-        driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_commando_cast_query.sql'))
+        driver.run_script(os.path.join(self.SQL_DIR, 'test_mysql_commando_cast_query.sql'))
         expected = (
             {'i': '123', 'f': '1.23', 'd': '2014-03-29 11:18:00', 's': 'test'},
             {'i': '-456', 'f': '-1.2e-34', 'd': '2014-03-29 00:00:00', 's': ' 123'},
@@ -99,14 +99,15 @@ class TestMysqlCommando(unittest.TestCase):
 
     def test_last_insert_id(self):
         driver = MysqlCommando(configuration=self.CONFIG)
-        driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_commando_last_insert_id.sql'))
+        driver.run_script(os.path.join(self.SQL_DIR, 'test_mysql_commando_last_insert_id.sql'))
         expected = 1
         actual = driver.run_query("INSERT INTO animals (name, age) VALUES ('Reglisse', 14)", last_insert_id=True)
         self.assertEqual(expected, actual)
         expected = ({'id': 2},)
-        actual = driver.run_script(os.path.join(self.SCRIPT_DIR, 'test_mysql_commando_last_insert_id_insert.sql'))
+        actual = driver.run_script(os.path.join(self.SQL_DIR, 'test_mysql_commando_last_insert_id_insert.sql'))
         self.assertEqual(expected, actual)
 
 
 if __name__ == '__main__':
     unittest.main()
+
