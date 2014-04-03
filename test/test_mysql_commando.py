@@ -3,7 +3,7 @@
 
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 import unittest
 import datetime
 from mysql_commando import MysqlCommando

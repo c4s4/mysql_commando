@@ -19,20 +19,12 @@
 - properties:
     name:        mysql_commando
     package:     :name
-    version:     "0.4.2"
+    version:     "0.4.3"
     author:      "Michel Casabianca"
     email:       "casa@sweetohm.net"
     license:     "Apache Software License"
     description: "mysql_commando is a lightweight MySQL driver"
-    py_src_dir:  :name
-    py_chk_src:  :name
     py_chk_cfg:  "pylint.cfg"
-    py_test_dir: "#{name}/test"
-    py_clean_files:
-    - "**/*.pyc"
-    - "**/*.pyo"
-    - "setup.py"
-    - "MANIFEST"
 
 # Build targets
 - target:      check_env
@@ -44,26 +36,36 @@
     else:
     - print: "You are running in the project's Virtualenv, please proceed"
 
-- target:      setup
-  description: Generate setup file
-  script:
-  - erb:
-      src:  "setup.py.erb"
-      dest: "setup.py"
-
 - target:      dist
-  depends:     setup
   description: Generate distribution archive
   script:
   - mkdir: :py_build_dir
-  - "python setup.py sdist -d #{py_build_dir}"
+  - erb:
+      src:  "etc/setup.py.erb"
+      dest: "#{py_build_dir}/setup.py"
+  - cp:
+      src:  "etc/MANIFEST.in"
+      dest: :py_build_dir
+  - cp:
+      src:  "README.rst"
+      dest: :py_build_dir
+  - cp:
+      src:  "LICENSE"
+      dest: :py_build_dir
+  - mkdir: "#{py_build_dir}/#{name}"
+  - copy:
+      root:     :py_src_dir
+      includes: "**/*.py"
+      dest:     "#{py_build_dir}/#{name}"
+  - cd: :py_build_dir
+  - "python setup.py sdist -d ."
 
 - target:      upload
   depends:     setup
   description: Upload the distribution
   script:
   - mkdir: :py_build_dir
-  - "python setup.py sdist -d #{py_build_dir} register upload"
+  - "python setup.py register upload"
 
 - target:      tag
   description: Tag the release
