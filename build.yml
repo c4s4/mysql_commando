@@ -65,7 +65,7 @@
   description: Upload the distribution
   script:
   - cd: :py_build_dir
-  - "python setup.py register upload"
+  - "python setup.py sdist -d . register upload"
 
 - target:      tag
   description: Tag the release
