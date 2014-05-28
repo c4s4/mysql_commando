@@ -36,8 +36,9 @@ class TestMysqlCommando(unittest.TestCase):
     def test_run_script_nominal(self):
         script = os.path.join(self.SQL_DIR, 'test_mysql_commando.sql')
         mysql = MysqlCommando(configuration=self.CONFIG)
-        result = mysql.run_script(script)
-        self.assertTrue('information_schema' in [entry['Database'] for entry in result])
+        expected = ({'id': 1, 'name': u'Réglisse', 'age': 14},)
+        actual = mysql.run_script(script)
+        self.assertEqual(expected, actual)
 
     def test_run_script_error(self):
         mysql = MysqlCommando(configuration=self.CONFIG)
@@ -101,7 +102,7 @@ class TestMysqlCommando(unittest.TestCase):
         driver = MysqlCommando(configuration=self.CONFIG)
         driver.run_script(os.path.join(self.SQL_DIR, 'test_mysql_commando_last_insert_id.sql'))
         expected = 1
-        actual = driver.run_query("INSERT INTO animals (name, age) VALUES ('Reglisse', 14)", last_insert_id=True)
+        actual = driver.run_query("INSERT INTO test (name, age) VALUES ('Reglisse', 14)", last_insert_id=True)
         self.assertEqual(expected, actual)
         expected = ({'id': 2},)
         actual = driver.run_script(os.path.join(self.SQL_DIR, 'test_mysql_commando_last_insert_id_insert.sql'))
