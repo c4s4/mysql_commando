@@ -56,7 +56,7 @@ class MysqlCommando(object):
                        '-u%s' % self.username,
                        '-p%s' % self.password,
                        '-h%s' % self.hostname,
-                       '--default-character-set', self.encoding,
+                       '--default-character-set=%s' % self.encoding,
                        '-B', '-e', query, self.database]
         else:
             command = ['mysql',
@@ -80,7 +80,7 @@ class MysqlCommando(object):
                        '-u%s' % self.username,
                        '-p%s' % self.password,
                        '-h%s' % self.hostname,
-                       '--default-character-set', self.encoding,
+                       '--default-character-set=%s' % self.encoding,
                        '-B', self.database]
         else:
             command = ['mysql',
@@ -96,10 +96,6 @@ class MysqlCommando(object):
             return self._output_to_result(output, cast=cast)
 
     def _output_to_result(self, output, cast):
-        if self.encoding:
-            output = unicode(output, encoding=self.encoding, errors='replace')
-        else:
-            output = unicode(output, errors='replace')
         result = []
         lines = output.strip().split('\n')
         fields = lines[0].split('\t')

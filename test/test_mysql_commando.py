@@ -36,7 +36,7 @@ class TestMysqlCommando(unittest.TestCase):
     def test_run_script_nominal(self):
         script = os.path.join(self.SQL_DIR, 'test_mysql_commando.sql')
         mysql = MysqlCommando(configuration=self.CONFIG)
-        expected = ({'id': 1, 'name': u'Réglisse', 'age': 14},)
+        expected = ({'id': 1, 'name': 'Réglisse', 'age': 14},)
         actual = mysql.run_script(script)
         self.assertEqual(expected, actual)
 
