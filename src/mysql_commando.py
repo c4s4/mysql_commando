@@ -15,6 +15,7 @@ class MysqlCommando(object):
         (r'-?\d+', int),
         (r'-?\d*\.?\d*([Ee][+-]?\d+)?', float),
         (r'\d{4}-\d\d-\d\d \d\d:\d\d:\d\d', lambda d: datetime.datetime.strptime(d, MysqlCommando.ISO_FORMAT)),
+        (r'NULL', lambda d: None),
     )
     QUERY_LAST_INSERT_ID = """
     ;SELECT last_insert_id() as last_insert_id;

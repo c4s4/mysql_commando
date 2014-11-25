@@ -72,7 +72,7 @@ Result set types
 
 **mysql_commando** performs auto casting before returning result sets. As it
 calls MySQL on command line, every value in the result set is a string. For
-convenience, it casts integers, floats and dates into native Python types.
+convenience, it casts integers, floats, dates and NULL into native Python types.
 
 There are situations where this might not be accurate. For instance, if a column
 is of SQL type ``VARCHAR(10)`` and contain phone numbers, all its values will be
@@ -125,6 +125,7 @@ install it on the target machine.
 Releases
 ========
 
+- **0.4.5** (*2014-11-25*): Added cast for 'NULL'.
 - **0.4.4** (*2014-05-28*): Encoding issue fixed.
 - **0.4.3** (*2014-04-03*): Project structure refactoring.
 - **0.4.2** (*2014-04-03*): Fixed packaging issue.

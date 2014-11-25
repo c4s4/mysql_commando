@@ -80,6 +80,9 @@ class TestMysqlCommando(unittest.TestCase):
         expected = 'test'
         actual = MysqlCommando._cast('test')
         self.assertEqual(expected, actual)
+        expected = None
+        actual = MysqlCommando._cast('NULL')
+        self.assertEqual(expected, actual)
 
     def test_cast_query(self):
         driver = MysqlCommando(configuration=self.CONFIG)
