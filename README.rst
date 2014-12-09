@@ -125,6 +125,7 @@ install it on the target machine.
 Releases
 ========
 
+- **0.4.6** (*2014-12-09*): Added None and list in accepted parameter types.
 - **0.4.5** (*2014-11-25*): Added cast for 'NULL'.
 - **0.4.4** (*2014-05-28*): Encoding issue fixed.
 - **0.4.3** (*2014-04-03*): Project structure refactoring.
