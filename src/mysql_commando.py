@@ -117,7 +117,7 @@ class MysqlCommando(object):
             if re.match("^%s$" % regexp, value):
                 return function(value)
         return value
-    
+
     @staticmethod
     def _execute_with_output(command, stdin=None):
         if stdin:
@@ -151,6 +151,10 @@ class MysqlCommando(object):
             return "'%s'" % MysqlCommando._escape_string(parameter)
         elif isinstance(parameter, datetime.datetime):
             return "'%s'" % parameter.strftime(MysqlCommando.ISO_FORMAT)
+        elif isinstance(parameter, list):
+            return "(%s)" % ', '.join([MysqlCommando._format_parameter(e) for e in parameter])
+        elif parameter is None:
+            return "NULL"
         else:
             raise Exception("Type '%s' is not managed as a query parameter" % parameter.__class__.__name__)
 

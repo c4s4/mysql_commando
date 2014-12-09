@@ -1,5 +1,5 @@
-build
-env
-.idea
+build/
+env/
+.idea/
+.ropeproject/
 *.pyc
-
