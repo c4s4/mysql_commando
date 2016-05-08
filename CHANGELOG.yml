@@ -1,0 +1,55 @@
+# Semantic Change Log: http://github.com/c4s4/changelog
+
+- version: ???
+  date:    2916-??-??
+  summary: ???
+  added:
+  - "Raising a custom MysqlException."
+
+- version: 0.4.6
+  date:    2014-12-09
+  summary: Added None and list in accepted parameter types
+
+- version: 0.4.5
+  date:    2014-11-25
+  summary: Added cast for NULL
+
+- version: 0.4.4
+  date:    2014-05-28
+  summary: Encoding issue fixed
+
+- version: 0.4.3
+  date:    2014-04-03
+  summary: Project structure refactoring
+
+- version: 0.4.2
+  date:    2014-04-03
+  summary: Fixed packaging issue
+
+- version: 0.4.1
+  date:    2014-04-01
+  summary: Documentation fixes and added unit tests
+
+- version: 0.4.0
+  date:    2014-04-01
+  summary: Added last_insert_id feature
+
+- version: 0.3.2
+  date:    2014-04-01
+  summary: Project renamed from mysql_null_driver to mysql_commando
+
+- version: 0.3.1
+  date:    2014-03-31
+  summary: Fixed documentation for Github and Pypi
+
+- vetsion: 0.3.0
+  date:    2014-03-31
+  summary: Added cast feature and unit tests
+
+- version: 0.2.0
+  date:    2014-03-26
+  summary: Improved documentation and module refactoring
+
+- version: 0.1.0
+  date:    2014-03-25
+  summary: First public release

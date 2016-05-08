@@ -44,7 +44,7 @@ class MysqlCommando(object):
             else:
                 self.encoding = None
         else:
-            raise Exception('Missing database configuration')
+            raise MysqlException('Missing database configuration')
         self.cast = cast
 
     def run_query(self, query, parameters=None, cast=None,
@@ -126,7 +126,7 @@ class MysqlCommando(object):
             process = subprocess.Popen(command, stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
         output, errput = process.communicate()
         if process.returncode != 0:
-            raise Exception(errput.strip())
+            raise MysqlException(errput.strip())
         return output
 
     @staticmethod
@@ -156,8 +156,19 @@ class MysqlCommando(object):
         elif parameter is None:
             return "NULL"
         else:
-            raise Exception("Type '%s' is not managed as a query parameter" % parameter.__class__.__name__)
+            raise MysqlException("Type '%s' is not managed as a query parameter" % parameter.__class__.__name__)
 
     @staticmethod
     def _escape_string(string):
         return string.replace("'", "''")
+
+
+# pylint: disable=W0231
+class MysqlException(Exception):
+
+    def __init__(self, message, query=None):
+        self.message = message
+        self.query = query
+
+    def __str__(self):
+        return self.message
