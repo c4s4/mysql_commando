@@ -11,6 +11,6 @@ setup(
     packages = ['mysql_commando'],
     url = 'http://pypi.python.org/pypi/mysql_commando/',
     license = 'Apache Software License',
-    description = 'mysql_commando is an Oracle driver calling mysql',
+    description = 'mysql_commando is a MySQL driver calling mysql on the command line',
     long_description=open('README.rst').read(),
 )
