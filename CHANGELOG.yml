@@ -5,6 +5,8 @@
   summary: Reworked project structure
   added:
   - "Raising a custom MysqlException."
+  fixed:
+  - "Reworked project structure and build with make."
 
 - version: 0.4.6
   date:    2014-12-09
@@ -42,7 +44,7 @@
   date:    2014-03-31
   summary: Fixed documentation for Github and Pypi
 
-- vetsion: 0.3.0
+- version: 0.3.0
   date:    2014-03-31
   summary: Added cast feature and unit tests
 
