@@ -10,6 +10,11 @@ import subprocess
 #pylint: disable=E1103
 class MysqlCommando(object):
 
+    """
+    Mysql driver that calls mysql client on command line to run queries or
+    scripts.
+    """
+
     ISO_FORMAT = '%Y-%m-%d %H:%M:%S'
     CASTS = (
         (r'-?\d+', int),
@@ -25,6 +30,17 @@ class MysqlCommando(object):
                  hostname=None, database=None,
                  username=None, password=None,
                  encoding=None, cast=True):
+        """
+        Constructor.
+        :param configuration: configuration as a dictionary with four following
+               parameters.
+        :param hostname: database hostname.
+        :param database: database name.
+        :param username: database user name.
+        :param password: database password.
+        :param encoding: database encoding.
+        :param cast: tells if we should cast result
+        """
         if hostname and database and username and password:
             self.hostname = hostname
             self.database = database
@@ -49,6 +65,15 @@ class MysqlCommando(object):
 
     def run_query(self, query, parameters=None, cast=None,
                   last_insert_id=False):
+        """
+        Run a given query.
+        :param query: the query to run
+        :param parameters: query parameters as a dictionary (with references as
+               '%(name)s' in query) or tuple (with references such as '%s')
+        :param cast: tells if we should cast result
+        :param last_insert_id: tells if this should return last inserted id
+        :return: result query as a tuple of dictionaries
+        """
         query = self._process_parameters(query, parameters)
         if last_insert_id:
             query += self.QUERY_LAST_INSERT_ID
@@ -76,6 +101,12 @@ class MysqlCommando(object):
                 return result
 
     def run_script(self, script, cast=None):
+        """
+        Run a given script.
+        :param script: the path to the script to run
+        :param cast: tells if we should cast result
+        :return: result query as a tuple of dictionaries
+        """
         if self.encoding:
             command = ['mysql',
                        '-u%s' % self.username,
@@ -97,6 +128,12 @@ class MysqlCommando(object):
             return self._output_to_result(output, cast=cast)
 
     def _output_to_result(self, output, cast):
+        """
+        Turn mysql output into a tuple of dictionaries.
+        :param output: the output of mysql
+        :param cast: tells if we should cast the result
+        :return: the result as a tuple of dictionaries
+        """
         result = []
         lines = output.strip().split('\n')
         fields = lines[0].split('\t')
@@ -109,10 +146,20 @@ class MysqlCommando(object):
 
     @staticmethod
     def _cast_list(values):
+        """
+        Cast a list
+        :param values: values to cast as a list
+        :return: casted values as a list
+        """
         return [MysqlCommando._cast(value) for value in values]
 
     @staticmethod
     def _cast(value):
+        """
+        Cast a single value.
+        :param value: value as a string
+        :return: casted value
+        """
         for regexp, function in MysqlCommando.CASTS:
             if re.match("^%s$" % regexp, value):
                 return function(value)
@@ -120,6 +167,12 @@ class MysqlCommando(object):
 
     @staticmethod
     def _execute_with_output(command, stdin=None):
+        """
+        Execute a given command and return output
+        :param command: the command to run
+        :param stdin:
+        :return: input for the command
+        """
         if stdin:
             process = subprocess.Popen(command, stdout=subprocess.PIPE,  stderr=subprocess.PIPE, stdin=stdin)
         else:
@@ -131,6 +184,12 @@ class MysqlCommando(object):
 
     @staticmethod
     def _process_parameters(query, parameters):
+        """
+        Replace parameters references in query with their value.
+        :param query: the query to process
+        :param parameters: parameters as a dictionary or a tuple
+        :return: query with parameters references replaced with their value
+        """
         if not parameters:
             return query
         if isinstance(parameters, (list, tuple)):
@@ -141,10 +200,23 @@ class MysqlCommando(object):
 
     @staticmethod
     def _format_parameters(parameters):
+        """
+        Format parameters to SQL syntax.
+        :param parameters: parameters to format as a list
+        :return: formatted parameters
+        """
         return [MysqlCommando._format_parameter(param) for param in parameters]
 
     @staticmethod
     def _format_parameter(parameter):
+        """
+        Format a single parameter:
+        - Let integers alone
+        - Surround strings with quotes
+        - Lists with parentheses
+        :param parameter: parameters to format
+        :return: formatted parameter
+        """
         if isinstance(parameter, (int, long, float)):
             return str(parameter)
         elif isinstance(parameter, (str, unicode)):
@@ -160,11 +232,19 @@ class MysqlCommando(object):
 
     @staticmethod
     def _escape_string(string):
+        """
+        Replace quotes with two quotes.
+        :param string: string to escape
+        :return: escaped string
+        """
         return string.replace("'", "''")
 
 
 # pylint: disable=W0231
 class MysqlException(Exception):
+    """
+    Exception raised by this driver.
+    """
 
     def __init__(self, message, query=None):
         self.message = message
